@@ -11,7 +11,7 @@
         <h1>UnDisk</h1>
         <form method="post">
             {% csrf_token %}
-            <input type="text" name="public_key" placeholder="Public key" required>
+            {{ form.as_p }}
             <button type="submit">Открыть</button>
         </form>
     </div>
