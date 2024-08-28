@@ -1,10 +1,23 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>UnDisk</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 <body>
-<p>Привет, мир!</p>
+    <div class="container">
+        <h1>UnDisk</h1>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="public_key" placeholder="Public key" required>
+            <button type="submit">Открыть</button>
+        </form>
+    </div>
+    <div class="footer">
+        <p>Yandex Disk Viewer - это веб-приложение на Django, которое позволяет пользователям просматривать и загружать файлы с Яндекс.Диска по публичной ссылке.</p>
+        <p>Сделано с <span style="color: red;">❤</span> annxas</p>
+    </div>
 </body>
 </html>
