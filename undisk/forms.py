@@ -1,4 +1,4 @@
 from django import forms
 
 class PublicLinkForm(forms.Form):
-    public_key = forms.CharField(label='Публичная ссылка', max_length=255)
+    public_key = forms.CharField(label='Public key', max_length=255)
