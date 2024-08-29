@@ -1,9 +1,12 @@
 import requests
 from django.shortcuts import render, redirect
 from django.views import View
+from django.http import HttpResponse
 from .forms import PublicLinkForm
 from urllib.parse import quote, unquote
 import base64
+import zipfile
+import io
 
 YANDEX_DISK_API_URL = "https://cloud-api.yandex.net/v1/disk/public/resources"
 
@@ -37,6 +40,21 @@ class IndexView(View):
 
     def post(self, request):
         form = PublicLinkForm(request.POST)
+        if 'download_selected' in request.POST:
+            selected_files = request.POST.getlist('selected_files')
+            public_key = request.POST.get('public_key')
+            zip_buffer = io.BytesIO()
+            with zipfile.ZipFile(zip_buffer, 'w') as zip_file:
+                for file_path in selected_files:
+                    download_url = f"{YANDEX_DISK_API_URL}/download"
+                    response = requests.get(download_url, params={'public_key': public_key, 'path': file_path})
+                    if response.status_code == 200 and 'href' in response.json():
+                        file_response = requests.get(response.json()['href'])
+                        zip_file.writestr(file_path.split('/')[-1], file_response.content)
+            zip_buffer.seek(0)
+            response = HttpResponse(zip_buffer, content_type='application/zip')
+            response['Content-Disposition'] = 'attachment; filename=file.zip'
+            return response
         if form.is_valid():
             public_key = form.cleaned_data['public_key']
             return redirect(f'?public_key={quote(public_key)}')
