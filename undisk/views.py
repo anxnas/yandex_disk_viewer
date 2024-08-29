@@ -2,7 +2,6 @@ import requests
 from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponse
-from .forms import PublicLinkForm
 from urllib.parse import quote, unquote
 import base64
 import zipfile
@@ -12,7 +11,6 @@ YANDEX_DISK_API_URL = "https://cloud-api.yandex.net/v1/disk/public/resources"
 
 class IndexView(View):
     def get(self, request):
-        form = PublicLinkForm()
         public_key = request.GET.get('public_key', '')
         path = request.GET.get('path', '')
         filter_type = request.GET.get('filter', 'all')
@@ -45,10 +43,9 @@ class IndexView(View):
                 else:
                     preview_content = "Предварительный просмотр недоступен"
         parent_path = '/'.join(path.split('/')[:-1]) if path else ''
-        return render(request, 'undisk/index.html', {'form': form, 'files': files, 'preview_content': preview_content, 'public_key': public_key, 'path': path, 'parent_path': parent_path, 'download_link': download_link, 'filter_type': filter_type, 'sort_by': sort_by, 'sort_order': sort_order, 'search_query': search_query})
+        return render(request, 'undisk/index.html', {'files': files, 'preview_content': preview_content, 'public_key': public_key, 'path': path, 'parent_path': parent_path, 'download_link': download_link, 'filter_type': filter_type, 'sort_by': sort_by, 'sort_order': sort_order, 'search_query': search_query})
 
     def post(self, request):
-        form = PublicLinkForm(request.POST)
         if 'download_selected' in request.POST:
             selected_files = request.POST.getlist('selected_files')
             public_key = request.POST.get('public_key')
@@ -64,10 +61,10 @@ class IndexView(View):
             response = HttpResponse(zip_buffer, content_type='application/zip')
             response['Content-Disposition'] = 'attachment; filename=file.zip'
             return response
-        if form.is_valid():
-            public_key = form.cleaned_data['public_key']
+        public_key = request.POST.get('public_key')
+        if public_key:
             return redirect(f'?public_key={quote(public_key)}')
-        return render(request, 'undisk/index.html', {'form': form})
+        return render(request, 'undisk/index.html')
 
     def get_preview_content(self, path, file_content, download_link):
         file_extension = path.split('.')[-1].lower()

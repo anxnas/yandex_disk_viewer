@@ -13,10 +13,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>UnDisk</h1>
-        <form method="post">
+        <h1 class="centered-title">Un<span class="highlight">Disk</span></h1>
+        <form method="post" class="inline-form">
             {% csrf_token %}
-            {{ form.as_p }}
+            <label for="public_key">Public key:</label>
+            <input type="text" id="public_key" name="public_key">
             <button type="submit">Открыть</button>
         </form>
         {% if files %}

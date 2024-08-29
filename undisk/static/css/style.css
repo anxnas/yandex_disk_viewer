@@ -1,39 +1,124 @@
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f0f0f0;
+    font-family: 'Lab Grotesque', 'Arial', sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 20px;
     background-color: white;
-    width: 80%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 1200px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
-.controls {
-    margin-top: 20px;
-    text-align: left;
+.centered-title {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
 }
 
-.controls form {
+.highlight {
+    color: #00bfa5;
+}
+
+.inline-form {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
+.inline-form label {
+    margin-right: 10px;
+}
+
+.inline-form input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.inline-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #00bfa5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.inline-form button:hover {
+    background-color: #009688;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.controls form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+}
+
+.controls label {
+    font-size: 14px;
+    color: #666;
+}
+
+.controls input[type="text"],
+.controls select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.controls input[type="text"] {
+    flex-grow: 1;
+}
+
+.controls button {
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #00bfa5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.controls button:hover {
+    background-color: #009688;
+}
+
 .file-preview {
     margin-top: 20px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #fff;
 }
 
 .preview-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 .text-preview {
@@ -44,7 +129,7 @@ body {
 
 .download-button,
 .download-selected-button {
-    background-color: #4CAF50;
+    background-color: #00bfa5;
     color: white;
     padding: 10px 20px;
     text-align: center;
@@ -55,6 +140,20 @@ body {
     cursor: pointer;
     border: none;
     border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.download-button:hover,
+.download-selected-button:hover {
+    background-color: #009688;
+}
+
+.file-preview iframe,
+.file-preview video,
+.file-preview audio,
+.file-preview .text-view {
+    max-width: 100%;
+    overflow: auto;
 }
 
 .file-list {
@@ -66,20 +165,31 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .file-list ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
 .file-list li {
-    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    transition: background-color 0.3s;
+}
+
+.file-list li:hover {
+    background-color: #f5f5f5;
 }
 
 .file-list a {
     text-decoration: none;
     color: #007bff;
+    flex-grow: 1;
 }
 
 .file-list a:hover {
@@ -87,9 +197,9 @@ body {
 }
 
 .file-list .icon {
-    width: 16px;
-    height: 16px;
-    margin-right: 8px;
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
     vertical-align: middle;
 }
 
@@ -101,8 +211,12 @@ body {
 }
 
 .footer a {
-    color: #ff0000;
+    color: #00bfa5;
     text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
 }
 
 .text-view {
