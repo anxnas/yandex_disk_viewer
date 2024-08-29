@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.21.0/docxtemplater.min.js"></script>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
     <script src="{% static 'js/preview.js' %}"></script>
 </head>
 <body>
@@ -32,10 +32,10 @@
                     <li>
                         {% if file.type == 'dir' %}
                             <img src="{% static 'icons/folder.png' %}" alt="Folder" class="icon">
-                            <a href="?public_key={{ public_key }}&path={{ file.path|urlencode }}">{{ file.name }}</a>
+                            <a href="?public_key={{ public_key|urlencode }}&path={{ file.path|urlencode }}">{{ file.name }}</a>
                         {% elif file.type == 'file' %}
                             <img src="{% static 'icons/file.png' %}" alt="File" class="icon">
-                            <a href="?public_key={{ public_key }}&path={{ path|urlencode }}&preview_path={{ file.path|urlencode }}">{{ file.name }}</a>
+                            <a href="?public_key={{ public_key|urlencode }}&path={{ path|urlencode }}&preview_path={{ file.path|urlencode }}">{{ file.name }}</a>
                         {% endif %}
                     </li>
                 {% endfor %}
