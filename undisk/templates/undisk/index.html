@@ -19,7 +19,14 @@
             <h2>Список файлов</h2>
             <ul>
                 {% for file in files %}
-                    <li>{{ file.name }}</li>
+                    <li>
+                        {% if file.type == 'dir' %}
+                            <img src="{% static 'icons/folder.png' %}" alt="Folder" class="icon">
+                        {% elif file.type == 'file' %}
+                            <img src="{% static 'icons/file.png' %}" alt="File" class="icon">
+                        {% endif %}
+                        {{ file.name }}
+                    </li>
                 {% endfor %}
             </ul>
         </div>
