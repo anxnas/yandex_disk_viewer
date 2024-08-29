@@ -46,7 +46,7 @@ class IndexView(View):
         elif file_extension in ['mp3', 'wav', 'ogg']:
             return f'<audio controls><source src="data:audio/{file_extension};base64,{encoded_content}" type="audio/{file_extension}">Your browser does not support the audio element.</audio>'
         elif file_extension in ['txt', 'csv']:
-            return f'<pre>{file_content.decode("utf-8")}</pre>'
+            return f'<pre class="text-view">{file_content.decode("utf-8")}</pre>'
         elif file_extension in ['pdf']:
             return f'<embed src="data:application/pdf;base64,{encoded_content}" type="application/pdf" width="100%" height="600px" />'
         else:
