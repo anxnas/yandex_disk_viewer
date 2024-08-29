@@ -37,3 +37,10 @@ body {
     color: #ff0000;
     text-decoration: none;
 }
+
+.icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
