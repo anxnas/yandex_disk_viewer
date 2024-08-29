@@ -21,13 +21,19 @@
         {% if files %}
         {% if preview_content %}
         <div class="file-preview">
-            <h2>Предпросмотр файла</h2>
+            <h2 class="text-preview">Предпросмотр файла</h2>
             <div id="preview-container">{{ preview_content|safe }}</div>
         </div>
         {% endif %}
         <div class="file-list">
             <h2>Список файлов</h2>
             <ul>
+                {% if path %}
+                    <li>
+                        <img src="{% static 'icons/back.png' %}" alt="Back" class="icon">
+                        <a href="?public_key={{ public_key|urlencode }}&path={{ parent_path|urlencode }}">{{ "..." }}</a>
+                    </li>
+                {% endif %}
                 {% for file in files %}
                     <li>
                         {% if file.type == 'dir' %}

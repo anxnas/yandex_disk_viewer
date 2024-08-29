@@ -31,7 +31,8 @@ class IndexView(View):
                     preview_content = self.get_preview_content(preview_path, file_content, download_link)
                 else:
                     preview_content = "Предварительный просмотр недоступен"
-        return render(request, 'undisk/index.html', {'form': form, 'files': files, 'preview_content': preview_content, 'public_key': public_key, 'path': path})
+        parent_path = '/'.join(path.split('/')[:-1]) if path else ''
+        return render(request, 'undisk/index.html', {'form': form, 'files': files, 'preview_content': preview_content, 'public_key': public_key, 'path': path, 'parent_path': parent_path})
 
     def post(self, request):
         form = PublicLinkForm(request.POST)
