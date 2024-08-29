@@ -12,6 +12,17 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.controls {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.controls form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .file-preview {
     margin-top: 20px;
     border: 1px solid #ccc;
@@ -44,14 +55,6 @@ body {
     cursor: pointer;
     border: none;
     border-radius: 4px;
-}
-
-.file-preview iframe,
-.file-preview video,
-.file-preview audio,
-.file-preview .text-view {
-    max-width: 100%;
-    overflow: auto;
 }
 
 .file-list {

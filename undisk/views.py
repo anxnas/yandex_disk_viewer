@@ -15,6 +15,10 @@ class IndexView(View):
         form = PublicLinkForm()
         public_key = request.GET.get('public_key', '')
         path = request.GET.get('path', '')
+        filter_type = request.GET.get('filter', 'all')
+        sort_by = request.GET.get('sort', '-')
+        sort_order = request.GET.get('order', 'asc')
+        search_query = request.GET.get('search', '')
         files = []
         preview_content = ""
         download_link = ""
@@ -24,6 +28,11 @@ class IndexView(View):
                 params['path'] = path
             response = requests.get(YANDEX_DISK_API_URL, params=params)
             files = response.json()['_embedded']['items']
+            files = self.filter_files(files, filter_type)
+            if sort_by != '-':
+                files = self.sort_files(files, sort_by, sort_order)
+            if search_query:
+                files = self.search_files(files, search_query)
             if 'preview_path' in request.GET:
                 preview_path = unquote(request.GET['preview_path'])
                 download_url = f"{YANDEX_DISK_API_URL}/download"
@@ -36,7 +45,7 @@ class IndexView(View):
                 else:
                     preview_content = "Предварительный просмотр недоступен"
         parent_path = '/'.join(path.split('/')[:-1]) if path else ''
-        return render(request, 'undisk/index.html', {'form': form, 'files': files, 'preview_content': preview_content, 'public_key': public_key, 'path': path, 'parent_path': parent_path, 'download_link': download_link})
+        return render(request, 'undisk/index.html', {'form': form, 'files': files, 'preview_content': preview_content, 'public_key': public_key, 'path': path, 'parent_path': parent_path, 'download_link': download_link, 'filter_type': filter_type, 'sort_by': sort_by, 'sort_order': sort_order, 'search_query': search_query})
 
     def post(self, request):
         form = PublicLinkForm(request.POST)
@@ -79,3 +88,31 @@ class IndexView(View):
             return f'data:application/{file_extension};base64,{encoded_content}'
         else:
             return "Предварительный просмотр недоступен"
+
+    def filter_files(self, files, filter_type):
+        if filter_type == 'all':
+            return files
+        elif filter_type == 'documents':
+            return [file for file in files if file['name'].split('.')[-1].lower() in ['doc', 'docx', 'pdf', 'txt', 'xlsx', 'csv']]
+        elif filter_type == 'images':
+            return [file for file in files if file['name'].split('.')[-1].lower() in ['jpg', 'jpeg', 'png', 'gif']]
+        elif filter_type == 'videos':
+            return [file for file in files if file['name'].split('.')[-1].lower() in ['mp4', 'webm']]
+        elif filter_type == 'audio':
+            return [file for file in files if file['name'].split('.')[-1].lower() in ['mp3', 'wav', 'ogg']]
+        else:
+            return files
+
+    def sort_files(self, files, sort_by, sort_order):
+        reverse = (sort_order == 'desc')
+        if sort_by == 'name':
+            return sorted(files, key=lambda x: x['name'].lower(), reverse=reverse)
+        elif sort_by == 'date':
+            return sorted(files, key=lambda x: x['created'], reverse=reverse)
+        elif sort_by == 'size':
+            return sorted(files, key=lambda x: x['size'], reverse=reverse)
+        else:
+            return files
+
+    def search_files(self, files, search_query):
+        return [file for file in files if search_query.lower() in file['name'].lower()]
