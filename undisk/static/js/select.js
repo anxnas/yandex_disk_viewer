@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const fileItems = document.querySelectorAll('.file-item');
+    const fileItems = document.querySelectorAll('.file-item[data-file-type="file"]');
     const downloadSelectedButton = document.querySelector('.download-selected-button');
     let longPressTimer;
 
