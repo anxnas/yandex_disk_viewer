@@ -44,7 +44,7 @@ class IndexView(View):
         file_extension = path.split('.')[-1].lower()
         encoded_content = base64.b64encode(file_content).decode('utf-8')
         if file_extension in ['jpg', 'jpeg', 'png', 'gif']:
-            return f'<img src="data:image/{file_extension};base64,{encoded_content}" alt="Image Preview">'
+            return f'<img src="data:image/{file_extension};base64,{encoded_content}" alt="Image Preview" style="max-width: 100%;">'
         elif file_extension in ['mp4', 'webm']:
             return f'<video controls style="max-width: 100%;"><source src="data:video/{file_extension};base64,{encoded_content}" type="video/{file_extension}">Your browser does not support the video tag.</video>'
         elif file_extension in ['mp3', 'wav', 'ogg']:
