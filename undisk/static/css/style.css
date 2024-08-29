@@ -44,3 +44,8 @@ body {
     margin-right: 8px;
     vertical-align: middle;
 }
+
+.text-preview {
+    text-align: left;
+    margin-top: 20px;
+}

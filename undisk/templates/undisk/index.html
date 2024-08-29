@@ -14,6 +14,12 @@
             {{ form.as_p }}
             <button type="submit">Открыть</button>
         </form>
+        {% if preview_content %}
+        <div class="file-preview">
+            <h2 class="text-preview">Предпросмотр файла</h2>
+            <div>{{ preview_content|safe }}</div>
+        </div>
+        {% endif %}
         {% if files %}
         <div class="file-list">
             <h2>Список файлов</h2>
@@ -22,10 +28,11 @@
                     <li>
                         {% if file.type == 'dir' %}
                             <img src="{% static 'icons/folder.png' %}" alt="Folder" class="icon">
+                            <a href="?public_key={{ public_key }}&path={{ file.path }}">{{ file.name }}</a>
                         {% elif file.type == 'file' %}
                             <img src="{% static 'icons/file.png' %}" alt="File" class="icon">
+                            <a href="?public_key={{ public_key }}&path={{ path }}&preview_path={{ file.path }}">{{ file.name }}</a>
                         {% endif %}
-                        {{ file.name }}
                     </li>
                 {% endfor %}
             </ul>
@@ -34,7 +41,7 @@
     </div>
     <div class="footer">
         <p>Yandex Disk Viewer - это веб-приложение на Django, которое позволяет пользователям просматривать и загружать файлы с Яндекс.Диска по публичной ссылке.</p>
-        <p>Сделано с <span style="color: red;">❤</span> annxas</p>
+        <p>Сделано с <span style="color: red;">❤</span> anxnas</p>
     </div>
 </body>
 </html>
