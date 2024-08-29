@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <title>UnDisk</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.21.0/docxtemplater.min.js"></script>
+    <script src="{% static 'js/preview.js' %}"></script>
 </head>
 <body>
     <div class="container">
@@ -14,13 +18,13 @@
             {{ form.as_p }}
             <button type="submit">Открыть</button>
         </form>
+        {% if files %}
         {% if preview_content %}
         <div class="file-preview">
-            <h2 class="text-preview">Предпросмотр файла</h2>
-            <div>{{ preview_content|safe }}</div>
+            <h2>Предпросмотр файла</h2>
+            <div id="preview-container">{{ preview_content|safe }}</div>
         </div>
         {% endif %}
-        {% if files %}
         <div class="file-list">
             <h2>Список файлов</h2>
             <ul>
@@ -28,10 +32,10 @@
                     <li>
                         {% if file.type == 'dir' %}
                             <img src="{% static 'icons/folder.png' %}" alt="Folder" class="icon">
-                            <a href="?public_key={{ public_key }}&path={{ file.path }}">{{ file.name }}</a>
+                            <a href="?public_key={{ public_key }}&path={{ file.path|urlencode }}">{{ file.name }}</a>
                         {% elif file.type == 'file' %}
                             <img src="{% static 'icons/file.png' %}" alt="File" class="icon">
-                            <a href="?public_key={{ public_key }}&path={{ path }}&preview_path={{ file.path }}">{{ file.name }}</a>
+                            <a href="?public_key={{ public_key }}&path={{ path|urlencode }}&preview_path={{ file.path|urlencode }}">{{ file.name }}</a>
                         {% endif %}
                     </li>
                 {% endfor %}
