@@ -46,9 +46,9 @@ class IndexView(View):
         if file_extension in ['jpg', 'jpeg', 'png', 'gif']:
             return f'<img src="data:image/{file_extension};base64,{encoded_content}" alt="Image Preview">'
         elif file_extension in ['mp4', 'webm']:
-            return f'<video controls><source src="data:video/{file_extension};base64,{encoded_content}" type="video/{file_extension}" width="100%">Your browser does not support the video tag.</video>'
+            return f'<video controls style="max-width: 100%;"><source src="data:video/{file_extension};base64,{encoded_content}" type="video/{file_extension}">Your browser does not support the video tag.</video>'
         elif file_extension in ['mp3', 'wav', 'ogg']:
-            return f'<audio controls><source src="data:audio/{file_extension};base64,{encoded_content}" type="audio/{file_extension}">Your browser does not support the audio element.</audio>'
+            return f'<audio controls style="max-width: 100%;"><source src="data:audio/{file_extension};base64,{encoded_content}" type="audio/{file_extension}">Your browser does not support the audio element.</audio>'
         elif file_extension in ['txt', 'csv']:
             return f'<pre class="text-view">{file_content.decode("utf-8")}</pre>'
         elif file_extension in ['pdf']:
