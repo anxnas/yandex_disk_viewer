@@ -49,5 +49,7 @@ class IndexView(View):
             return f'<pre class="text-view">{file_content.decode("utf-8")}</pre>'
         elif file_extension in ['pdf']:
             return f'<embed src="data:application/pdf;base64,{encoded_content}" type="application/pdf" width="100%" height="600px" />'
+        elif file_extension in ['docx', 'xlsx', 'zip']:
+            return f'data:application/{file_extension};base64,{encoded_content}'
         else:
             return "Предварительный просмотр недоступен"
