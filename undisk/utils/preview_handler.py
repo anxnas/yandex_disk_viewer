@@ -5,12 +5,37 @@ from typing import Optional
 logger = logging.getLogger(__name__)
 
 class PreviewHandler:
+    """
+    Класс для обработки предварительного просмотра файлов.
+
+    Attributes:
+        path (str): Путь к файлу.
+        file_content (bytes): Содержимое файла.
+        download_link (str): Ссылка для скачивания файла.
+    """
     def __init__(self, path: str, file_content: bytes, download_link: str) -> None:
+        """
+        Инициализация PreviewHandler.
+
+        Args:
+            path (str): Путь к файлу.
+            file_content (bytes): Содержимое файла.
+            download_link (str): Ссылка для скачивания файла.
+        """
         self.path: str = path
         self.file_content: bytes = file_content
         self.download_link: str = download_link
 
     def get_preview_content(self) -> Optional[str]:
+        """
+        Получение содержимого для предварительного просмотра.
+
+        Этот метод возвращает HTML-код для предварительного просмотра файла в зависимости от его типа.
+        Поддерживаются изображения, видео, аудио, текстовые файлы, PDF и некоторые другие форматы.
+
+        Returns:
+            Optional[str]: HTML-код для предварительного просмотра или сообщение об ошибке.
+        """
         try:
             logger.debug(f"Получение предварительного просмотра для файла: {self.path}")
             file_extension: str = self.path.split('.')[-1].lower()

@@ -38,6 +38,9 @@ class LogConfig:
     def setup_logging(self) -> None:
         """
         Настройка логирования.
+
+        Этот метод настраивает логирование, создавая обработчик логов с ротацией файлов,
+        устанавливая формат логов и добавляя обработчик к основному логгеру.
         """
         logger = logging.getLogger()
         handler = RotatingFileHandler(self.log_file_name, maxBytes=self.max_bytes, backupCount=self.backup_count, encoding=self.encoding)
