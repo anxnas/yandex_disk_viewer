@@ -1,24 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
     const fileItems = document.querySelectorAll('.file-item[data-file-type="file"]');
     const downloadSelectedButton = document.querySelector('.download-selected-button');
-    let longPressTimer;
 
     fileItems.forEach(item => {
-        item.addEventListener('mousedown', function() {
-            longPressTimer = setTimeout(() => {
-                const checkbox = item.querySelector('.file-checkbox');
-                checkbox.style.display = 'inline-block';
-                checkbox.checked = true;
-                updateDownloadButtonVisibility();
-            }, 1000); // 1 second for long press
-        });
-
-        item.addEventListener('mouseup', function() {
-            clearTimeout(longPressTimer);
-        });
-
-        item.addEventListener('mouseleave', function() {
-            clearTimeout(longPressTimer);
+        item.addEventListener('click', function() {
+            const checkbox = item.querySelector('.file-checkbox');
+            checkbox.style.display = 'inline-block';
+            checkbox.checked = !checkbox.checked;
+            updateDownloadButtonVisibility();
         });
     });
 

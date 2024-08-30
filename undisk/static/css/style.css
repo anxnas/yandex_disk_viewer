@@ -30,6 +30,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 .inline-form label {
@@ -53,7 +54,7 @@ body {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-    width: 105px
+    width: 105px;
 }
 
 .inline-form button:hover {
@@ -74,6 +75,7 @@ body {
     display: flex;
     gap: 10px;
     width: 100%;
+    flex-wrap: wrap;
 }
 
 .filter-group {
@@ -100,6 +102,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 .search-group label {
@@ -124,7 +127,7 @@ body {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-    width: 105px
+    width: 105px;
 }
 
 .search-group button:hover {
@@ -277,4 +280,84 @@ body {
 
 .notification.success {
     background-color: #4CAF50;
+}
+
+/* Медиазапросы для адаптации под разные экраны */
+@media (max-width: 1200px) {
+    .container {
+        width: 95%;
+    }
+}
+
+@media (max-width: 992px) {
+    .filter-sort-order {
+        flex-direction: column;
+    }
+
+    .search-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: inherit;
+    }
+
+    .file-list li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .preview-header {
+        flex-direction: column;
+        align-items: normal;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .centered-title {
+        font-size: 20px;
+    }
+
+    .inline-form button {
+        width: 100%;
+    }
+
+    .filter-group select,
+    .search-group input[type="text"],
+    .search-group button {
+        width: 100%;
+    }
+
+    .file-list li {
+        padding: 5px;
+    }
+}
+
+@media (max-width: 576px) {
+    .centered-title {
+        font-size: 18px;
+    }
+
+    .inline-form label,
+    .filter-group label,
+    .search-group label {
+        font-size: 12px;
+    }
+
+    .inline-form input[type="text"],
+    .filter-group select,
+    .search-group input[type="text"],
+    .search-group button {
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    .download-button,
+    .download-selected-button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
 }
