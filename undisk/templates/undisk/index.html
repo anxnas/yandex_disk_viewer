@@ -22,32 +22,42 @@
         </form>
         {% if files %}
         <div class="controls">
-            <form method="get">
+            <form method="get" class="filter-form">
                 <input type="hidden" name="public_key" value="{{ public_key }}">
                 <input type="hidden" name="path" value="{{ path }}">
-                <label for="filter">Фильтр:</label>
-                <select name="filter" id="filter" onchange="this.form.submit()">
-                    <option value="all" {% if filter_type == 'all' %}selected{% endif %}>Все</option>
-                    <option value="documents" {% if filter_type == 'documents' %}selected{% endif %}>Документы</option>
-                    <option value="images" {% if filter_type == 'images' %}selected{% endif %}>Фото</option>
-                    <option value="videos" {% if filter_type == 'videos' %}selected{% endif %}>Видео</option>
-                    <option value="audio" {% if filter_type == 'audio' %}selected{% endif %}>Аудио</option>
-                </select>
-                <label for="sort">Сортировка:</label>
-                <select name="sort" id="sort" onchange="this.form.submit()">
-                    <option value="-" {% if sort_by == '-' %}selected{% endif %}>-</option>
-                    <option value="name" {% if sort_by == 'name' %}selected{% endif %}>По имени</option>
-                    <option value="date" {% if sort_by == 'date' %}selected{% endif %}>По дате</option>
-                    <option value="size" {% if sort_by == 'size' %}selected{% endif %}>По размеру</option>
-                </select>
-                <label for="order">Порядок:</label>
-                <select name="order" id="order" onchange="this.form.submit()">
-                    <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>По возрастанию</option>
-                    <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>По убыванию</option>
-                </select>
-                <label for="search">Поиск:</label>
-                <input type="text" name="search" id="search" value="{{ search_query }}">
-                <button type="submit">Поиск</button>
+                <div class="filter-sort-order">
+                    <div class="filter-group">
+                        <label for="filter">Фильтр:</label>
+                        <select name="filter" id="filter" onchange="this.form.submit()">
+                            <option value="all" {% if filter_type == 'all' %}selected{% endif %}>Все</option>
+                            <option value="documents" {% if filter_type == 'documents' %}selected{% endif %}>Документы</option>
+                            <option value="images" {% if filter_type == 'images' %}selected{% endif %}>Фото</option>
+                            <option value="videos" {% if filter_type == 'videos' %}selected{% endif %}>Видео</option>
+                            <option value="audio" {% if filter_type == 'audio' %}selected{% endif %}>Аудио</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="sort">Сортировка:</label>
+                        <select name="sort" id="sort" onchange="this.form.submit()">
+                            <option value="-" {% if sort_by == '-' %}selected{% endif %}>-</option>
+                            <option value="name" {% if sort_by == 'name' %}selected{% endif %}>По имени</option>
+                            <option value="date" {% if sort_by == 'date' %}selected{% endif %}>По дате</option>
+                            <option value="size" {% if sort_by == 'size' %}selected{% endif %}>По размеру</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="order">Порядок:</label>
+                        <select name="order" id="order" onchange="this.form.submit()">
+                            <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>По возрастанию</option>
+                            <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>По убыванию</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="search-group">
+                    <label for="search">Поиск:</label>
+                    <input type="text" name="search" id="search" value="{{ search_query }}">
+                    <button type="submit">Поиск</button>
+                </div>
             </form>
         </div>
         {% if preview_content %}
@@ -93,7 +103,7 @@
     </div>
     <div class="footer">
         <p>Yandex Disk Viewer - это веб-приложение на Django, которое позволяет пользователям просматривать и загружать файлы с Яндекс.Диска по публичной ссылке.</p>
-        <p>Сделано с <span style="color: red;">❤</span> anxnas</p>
+        <p>Сделано с <span style="color: red;">❤</span> anxnas</п>
     </div>
 </body>
 </html>

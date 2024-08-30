@@ -53,6 +53,7 @@ body {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+    width: 105px;
 }
 
 .inline-form button:hover {
@@ -60,38 +61,61 @@ body {
 }
 
 .controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
-.controls form {
+.filter-form {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 10px;
-    align-items: center;
+}
+
+.filter-sort-order {
+    display: flex;
+    gap: 10px;
     width: 100%;
 }
 
-.controls label {
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-grow: 1;
+}
+
+.filter-group label {
     font-size: 14px;
     color: #666;
 }
 
-.controls input[type="text"],
-.controls select {
+.filter-group select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.search-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-group label {
+    font-size: 14px;
+    color: #666;
+}
+
+.search-group input[type="text"] {
+    flex-grow: 1;
     padding: 8px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-.controls input[type="text"] {
-    flex-grow: 1;
-}
-
-.controls button {
+.search-group button {
     padding: 8px 16px;
     font-size: 14px;
     background-color: #00bfa5;
@@ -100,9 +124,10 @@ body {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+    width: 105px;
 }
 
-.controls button:hover {
+.search-group button:hover {
     background-color: #009688;
 }
 
@@ -146,14 +171,6 @@ body {
 .download-button:hover,
 .download-selected-button:hover {
     background-color: #009688;
-}
-
-.file-preview iframe,
-.file-preview video,
-.file-preview audio,
-.file-preview .text-view {
-    max-width: 100%;
-    overflow: auto;
 }
 
 .file-list {
