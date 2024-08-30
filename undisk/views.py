@@ -13,7 +13,7 @@ from .utils.preview_handler import PreviewHandler
 from .utils.log_config import LogConfig
 
 # Настройка логирования
-log_config = LogConfig(log_file_name='log/undisk.log', level=logging.DEBUG)
+log_config = LogConfig(log_file_name='log/undisk.log', level=logging.INFO)
 log_config.setup_logging()
 logger = logging.getLogger(__name__)
 
