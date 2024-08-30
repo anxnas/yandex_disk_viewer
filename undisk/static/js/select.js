@@ -3,11 +3,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const downloadSelectedButton = document.querySelector('.download-selected-button');
 
     fileItems.forEach(item => {
-        item.addEventListener('click', function() {
+        const icon = item.querySelector('.icon');
+        const link = item.querySelector('a');
+
+        icon.addEventListener('click', function(event) {
+            event.preventDefault(); // Предотвращаем переход по ссылке
+            event.stopPropagation(); // Останавливаем всплытие события
             const checkbox = item.querySelector('.file-checkbox');
             checkbox.style.display = 'inline-block';
             checkbox.checked = !checkbox.checked;
             updateDownloadButtonVisibility();
+        });
+
+        link.addEventListener('click', function(event) {
+            // Переход по ссылке происходит автоматически, ничего не нужно делать
         });
     });
 
