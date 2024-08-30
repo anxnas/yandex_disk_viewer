@@ -258,3 +258,23 @@ body {
     max-width: 100%;
     overflow: auto;
 }
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #fff;
+    z-index: 1000;
+    opacity: 0.9;
+    font-size: 16px;
+}
+
+.notification.error {
+    background-color: #f44336;
+}
+
+.notification.success {
+    background-color: #4CAF50;
+}

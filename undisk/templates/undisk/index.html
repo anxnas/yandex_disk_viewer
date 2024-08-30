@@ -10,6 +10,7 @@
     <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
     <script src="{% static 'js/preview.js' %}"></script>
     <script src="{% static 'js/select.js' %}"></script>
+    <script src="{% static 'js/notification.js' %}"></script>
 </head>
 <body>
     <div class="container">
@@ -20,6 +21,9 @@
             <input type="text" id="public_key" name="public_key">
             <button type="submit">Открыть</button>
         </form>
+        {% if error_message %}
+            <div id="error-message" style="display: none;">{{ error_message }}</div>
+        {% endif %}
         {% if files %}
         <div class="controls">
             <form method="get" class="filter-form">

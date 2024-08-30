@@ -50,6 +50,7 @@ class IndexView(View):
             files: List[Dict[str, Any]] = []
             preview_content: str = ""
             download_link: str = ""
+            error_message: str = ""
 
             if public_key:
                 logger.debug(f"Получен public_key: {public_key}")
@@ -88,13 +89,26 @@ class IndexView(View):
             # Определение родительского пути
             parent_path: str = '/'.join(path.split('/')[:-1]) if path else ''
             logger.info("GET запрос успешно обработан")
-            return render(request, 'undisk/index.html', {'files': files, 'preview_content': preview_content, 'public_key': public_key, 'path': path, 'parent_path': parent_path, 'download_link': download_link, 'filter_type': filter_type, 'sort_by': sort_by, 'sort_order': sort_order, 'search_query': search_query})
+            return render(request, 'undisk/index.html', {
+                'files': files,
+                'preview_content': preview_content,
+                'public_key': public_key,
+                'path': path,
+                'parent_path': parent_path,
+                'download_link': download_link,
+                'filter_type': filter_type,
+                'sort_by': sort_by,
+                'sort_order': sort_order,
+                'search_query': search_query,
+                'error_message': error_message
+            })
         except requests.exceptions.RequestException as e:
             logger.error(f"Ошибка при запросе к Yandex Disk API: {e}")
-            return HttpResponse("Произошла ошибка при запросе к Yandex Disk API.", status=500)
+            error_message = "Произошла ошибка при запросе к Yandex Disk API."
         except Exception as e:
             logger.critical(f"Неизвестная ошибка при обработке GET запроса: {e}")
-            return HttpResponse("Произошла неизвестная ошибка при обработке запроса.", status=500)
+            error_message = "Произошла неизвестная ошибка при обработке запроса."
+        return render(request, 'undisk/index.html', {'error_message': error_message})
 
     def post(self, request: HttpRequest) -> HttpResponse:
         """
@@ -141,7 +155,8 @@ class IndexView(View):
             return render(request, 'undisk/index.html')
         except requests.exceptions.RequestException as e:
             logger.error(f"Ошибка при запросе к Yandex Disk API: {e}")
-            return HttpResponse("Произошла ошибка при запросе к Yandex Disk API.", status=500)
+            error_message = "Произошла ошибка при запросе к Yandex Disk API."
         except Exception as e:
             logger.critical(f"Неизвестная ошибка при обработке POST запроса: {e}")
-            return HttpResponse("Произошла неизвестная ошибка при обработке запроса.", status=500)
+            error_message = "Произошла неизвестная ошибка при обработке запроса."
+        return render(request, 'undisk/index.html', {'error_message': error_message})
