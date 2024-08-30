@@ -3,9 +3,11 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponse
 from urllib.parse import quote, unquote
-import base64
-import zipfile
 import io
+import zipfile
+
+from .utils.file_handler import FileHandler
+from .utils.preview_handler import PreviewHandler
 
 YANDEX_DISK_API_URL = "https://cloud-api.yandex.net/v1/disk/public/resources"
 
@@ -26,11 +28,12 @@ class IndexView(View):
                 params['path'] = path
             response = requests.get(YANDEX_DISK_API_URL, params=params)
             files = response.json()['_embedded']['items']
-            files = self.filter_files(files, filter_type)
+            file_handler = FileHandler(files)
+            files = file_handler.filter_files(filter_type)
             if sort_by != '-':
-                files = self.sort_files(files, sort_by, sort_order)
+                files = file_handler.sort_files(sort_by, sort_order)
             if search_query:
-                files = self.search_files(files, search_query)
+                files = file_handler.search_files(search_query)
             if 'preview_path' in request.GET:
                 preview_path = unquote(request.GET['preview_path'])
                 download_url = f"{YANDEX_DISK_API_URL}/download"
@@ -39,7 +42,8 @@ class IndexView(View):
                     download_link = response.json()['href']
                     file_response = requests.get(download_link)
                     file_content = file_response.content
-                    preview_content = self.get_preview_content(preview_path, file_content, download_link)
+                    preview_handler = PreviewHandler(preview_path, file_content, download_link)
+                    preview_content = preview_handler.get_preview_content()
                 else:
                     preview_content = "Предварительный просмотр недоступен"
         parent_path = '/'.join(path.split('/')[:-1]) if path else ''
@@ -65,51 +69,3 @@ class IndexView(View):
         if public_key:
             return redirect(f'?public_key={quote(public_key)}')
         return render(request, 'undisk/index.html')
-
-    def get_preview_content(self, path, file_content, download_link):
-        file_extension = path.split('.')[-1].lower()
-        encoded_content = base64.b64encode(file_content).decode('utf-8')
-        if file_extension in ['jpg', 'jpeg', 'png', 'gif']:
-            return f'<img src="data:image/{file_extension};base64,{encoded_content}" alt="Image Preview">'
-        elif file_extension in ['mp4', 'webm']:
-            return f'<video controls><source src="data:video/{file_extension};base64,{encoded_content}" type="video/{file_extension}">Your browser does not support the video tag.</video>'
-        elif file_extension in ['mp3', 'wav', 'ogg']:
-            return f'<audio controls><source src="data:audio/{file_extension};base64,{encoded_content}" type="audio/{file_extension}">Your browser does not support the audio element.</audio>'
-        elif file_extension in ['txt', 'csv']:
-            return f'<pre class="text-view">{file_content.decode("utf-8")}</pre>'
-        elif file_extension in ['pdf']:
-            return f'<embed src="data:application/pdf;base64,{encoded_content}" type="application/pdf" width="100%" height="600px" />'
-        elif file_extension in ['docx', 'xlsx']:
-            return download_link
-        elif file_extension in ['zip']:
-            return f'data:application/{file_extension};base64,{encoded_content}'
-        else:
-            return "Предварительный просмотр недоступен"
-
-    def filter_files(self, files, filter_type):
-        if filter_type == 'all':
-            return files
-        elif filter_type == 'documents':
-            return [file for file in files if file['name'].split('.')[-1].lower() in ['doc', 'docx', 'pdf', 'txt', 'xlsx', 'csv']]
-        elif filter_type == 'images':
-            return [file for file in files if file['name'].split('.')[-1].lower() in ['jpg', 'jpeg', 'png', 'gif']]
-        elif filter_type == 'videos':
-            return [file for file in files if file['name'].split('.')[-1].lower() in ['mp4', 'webm']]
-        elif filter_type == 'audio':
-            return [file for file in files if file['name'].split('.')[-1].lower() in ['mp3', 'wav', 'ogg']]
-        else:
-            return files
-
-    def sort_files(self, files, sort_by, sort_order):
-        reverse = (sort_order == 'desc')
-        if sort_by == 'name':
-            return sorted(files, key=lambda x: x['name'].lower(), reverse=reverse)
-        elif sort_by == 'date':
-            return sorted(files, key=lambda x: x['created'], reverse=reverse)
-        elif sort_by == 'size':
-            return sorted(files, key=lambda x: x['size'], reverse=reverse)
-        else:
-            return files
-
-    def search_files(self, files, search_query):
-        return [file for file in files if search_query.lower() in file['name'].lower()]
