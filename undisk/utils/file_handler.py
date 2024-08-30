@@ -1,12 +1,13 @@
 import logging
+from typing import List, Dict, Any
 
 logger = logging.getLogger(__name__)
 
 class FileHandler:
-    def __init__(self, files):
-        self.files = files
+    def __init__(self, files: List[Dict[str, Any]]) -> None:
+        self.files: List[Dict[str, Any]] = files
 
-    def filter_files(self, filter_type):
+    def filter_files(self, filter_type: str) -> List[Dict[str, Any]]:
         try:
             logger.debug(f"Фильтрация файлов по типу: {filter_type}")
             if filter_type == 'all':
@@ -25,10 +26,10 @@ class FileHandler:
             logger.error(f"Ошибка при фильтрации файлов: {e}")
             return []
 
-    def sort_files(self, sort_by, sort_order):
+    def sort_files(self, sort_by: str, sort_order: str) -> List[Dict[str, Any]]:
         try:
             logger.debug(f"Сортировка файлов по: {sort_by}, порядок: {sort_order}")
-            reverse = (sort_order == 'desc')
+            reverse: bool = (sort_order == 'desc')
             if sort_by == 'name':
                 return sorted(self.files, key=lambda x: x['name'].lower(), reverse=reverse)
             elif sort_by == 'date':
@@ -41,7 +42,7 @@ class FileHandler:
             logger.error(f"Ошибка при сортировке файлов: {e}")
             return []
 
-    def search_files(self, search_query):
+    def search_files(self, search_query: str) -> List[Dict[str, Any]]:
         try:
             logger.debug(f"Поиск файлов по запросу: {search_query}")
             return [file for file in self.files if search_query.lower() in file['name'].lower()]

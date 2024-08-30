@@ -24,14 +24,14 @@ class LogConfig:
             encoding (str): Кодировка файла логов.
             level (int): Уровень логирования.
         """
-        self.log_file_name = log_file_name
-        self.max_bytes = max_bytes
-        self.backup_count = backup_count
-        self.encoding = encoding
-        self.level = level
+        self.log_file_name: str = log_file_name
+        self.max_bytes: int = max_bytes
+        self.backup_count: int = backup_count
+        self.encoding: str = encoding
+        self.level: int = level
 
         # Создание директории, если она не существует
-        log_dir = os.path.dirname(log_file_name)
+        log_dir: str = os.path.dirname(log_file_name)
         if log_dir and not os.path.exists(log_dir):
             os.makedirs(log_dir)
 

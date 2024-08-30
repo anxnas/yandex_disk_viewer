@@ -1,20 +1,20 @@
-# undisk/utils/preview_handler.py
 import base64
 import logging
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
 class PreviewHandler:
-    def __init__(self, path, file_content, download_link):
-        self.path = path
-        self.file_content = file_content
-        self.download_link = download_link
+    def __init__(self, path: str, file_content: bytes, download_link: str) -> None:
+        self.path: str = path
+        self.file_content: bytes = file_content
+        self.download_link: str = download_link
 
-    def get_preview_content(self):
+    def get_preview_content(self) -> Optional[str]:
         try:
             logger.debug(f"Получение предварительного просмотра для файла: {self.path}")
-            file_extension = self.path.split('.')[-1].lower()
-            encoded_content = base64.b64encode(self.file_content).decode('utf-8')
+            file_extension: str = self.path.split('.')[-1].lower()
+            encoded_content: str = base64.b64encode(self.file_content).decode('utf-8')
             if file_extension in ['jpg', 'jpeg', 'png', 'gif']:
                 return f'<img src="data:image/{file_extension};base64,{encoded_content}" alt="Image Preview" style="max-width: 100%;">'
             elif file_extension in ['mp4', 'webm']:
