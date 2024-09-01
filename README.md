@@ -73,7 +73,7 @@ UnDisk (или Yandex Disk Viewer) - это веб-приложение на Dja
 
 Для запуска тестов используйте следующую команду:
 
-    ```sh
+    ```
     python manage.py test
     ```
 
